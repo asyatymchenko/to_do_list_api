@@ -1,6 +1,6 @@
 class TasksController < ApplicationController
 	def index # GET all
-		tasks = Task.order('id');
+		tasks = Task.order('id')
 		render json: tasks
 	end
 
@@ -34,6 +34,16 @@ class TasksController < ApplicationController
 		title.done = false
 		task.save
 		render json: task
+	end
+
+	def show_done
+		tasks = Task.done_tasks 
+		render json: tasks
+	end
+
+	def show_undone
+		tasks = Task.undone_tasks 
+		render json: tasks
 	end
 
 	private
