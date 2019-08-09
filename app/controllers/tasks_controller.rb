@@ -10,7 +10,7 @@ class TasksController < ApplicationController
 	end
 
 	def create#  POST
-		task = Task.new(task_params)
+		task = Task.create(task_params)	
 		render json: task
 	end
 
@@ -18,24 +18,26 @@ class TasksController < ApplicationController
 		task = Task.find(params[:id])
 		task.destroy
 		render json: task
-		#render json: {status: 'SUCCESS', message: 'task deleted', data:task}, status: :ok
 	end
 
 	def update
 		task = Task.find(params[:id])
-		#task.done = !(task.done)
 		task.done = task_params[:done]
-		task.title = task_params[:title]
 		task.save
 		render json: task
 	end
-	#private
-	#def task_params
-	#	params.permit(:title, :checked)
-	#end
+
+	def rename
+		task= Task.find(params[:id])
+		task.title = task_params.title
+		task.description = task_params.description
+		title.done = false
+		task.save
+		render json: task
+	end
 
 	private
     def task_params
-      params.require(:task).permit(:title, :done)
+      params.require(:task).permit(:title, :done, :description)
     end 
 end
